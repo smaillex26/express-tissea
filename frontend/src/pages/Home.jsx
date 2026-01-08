@@ -1,57 +1,188 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { authService } from '../services/api';
+import { useEffect, useState } from 'react';
 import '../styles/Home.css';
 
 const Home = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = authService.getCurrentUser();
+    setIsAuthenticated(!!user);
+  }, []);
+
+  const handleLogout = () => {
+    authService.logout();
+    setIsAuthenticated(false);
+    navigate('/');
+  };
+
   return (
     <div className="home">
+      {/* Header avec bouton Accueil */}
+      <header className="home-header">
+        <div className="header-content">
+          <Link to="/" className="logo">
+            <span className="logo-icon">🚇</span>
+            <span className="logo-text">Tisséo Express</span>
+          </Link>
+          <nav className="nav-buttons">
+            <Link to="/" className="nav-btn active">
+              🏠 Accueil
+            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/lines" className="nav-btn">
+                  📋 Lignes
+                </Link>
+                <Link to="/map" className="nav-btn">
+                  🗺️ Carte
+                </Link>
+                <button onClick={handleLogout} className="nav-btn btn-logout">
+                  🚪 Déconnexion
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="nav-btn">
+                  🔑 Connexion
+                </Link>
+                <Link to="/signup" className="nav-btn btn-primary">
+                  ✨ S'inscrire
+                </Link>
+              </>
+            )}
+          </nav>
+        </div>
+      </header>
+
       <div className="home-content">
-        <h1>API Tisséa</h1>
-        <p className="subtitle">Réseau de transports publics - Bus, Métro et Tramway</p>
-
-        <div className="home-description">
-          <p>
-            Bienvenue sur l'API Tisséa, votre plateforme de gestion des transports en commun.
-            Accédez aux informations sur les lignes de bus, métro et tramway.
+        {/* Hero Section */}
+        <section className="hero">
+          <h1 className="hero-title">Tisséo Express</h1>
+          <p className="hero-subtitle">Réseau de transports publics de Toulouse</p>
+          <p className="hero-description">
+            Explorez et gérez les lignes de métro, Linéo, bus, express et navettes
+            du réseau Tisséo de Toulouse. Consultez les horaires, arrêts et itinéraires
+            en temps réel.
           </p>
-        </div>
 
-        <div className="home-actions">
-          <Link to="/signup" className="btn btn-primary">
-            S'inscrire
-          </Link>
-          <Link to="/login" className="btn btn-secondary">
-            Se connecter
-          </Link>
-        </div>
+          {!isAuthenticated && (
+            <div className="hero-actions">
+              <Link to="/signup" className="btn btn-primary btn-large">
+                Commencer maintenant
+              </Link>
+              <Link to="/login" className="btn btn-secondary btn-large">
+                Se connecter
+              </Link>
+            </div>
+          )}
+        </section>
 
-        <div className="home-features">
-          <div className="feature">
-            <h3>🚇 Métro</h3>
-            <p>Consultez les horaires et itinéraires des lignes de métro</p>
+        {/* Statistics */}
+        <section className="stats-section">
+          <div className="stats-grid">
+            <div className="stat-card">
+              <div className="stat-number">31</div>
+              <div className="stat-label">Lignes</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">115</div>
+              <div className="stat-label">Arrêts</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">5</div>
+              <div className="stat-label">Catégories</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">247</div>
+              <div className="stat-label">Relations</div>
+            </div>
           </div>
-          <div className="feature">
-            <h3>🚌 Bus</h3>
-            <p>Trouvez votre ligne de bus et ses arrêts</p>
-          </div>
-          <div className="feature">
-            <h3>🚊 Tramway</h3>
-            <p>Découvrez le réseau de tramway et ses stations</p>
-          </div>
-        </div>
+        </section>
 
-        <div className="home-quick-links">
-          <h3>Accès rapide</h3>
-          <div className="quick-links-grid">
-            <Link to="/lines" className="quick-link">
-              <span className="icon">📋</span>
-              <span>Toutes les lignes</span>
+        {/* Features */}
+        <section className="features-section">
+          <h2 className="section-title">Nos Services</h2>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon">🚇</div>
+              <h3>Métro</h3>
+              <p>2 lignes de métro (A et B) desservant 38 stations à travers Toulouse</p>
+              <ul className="feature-list">
+                <li>Ligne A: Basso Cambo ↔ Balma-Gramont</li>
+                <li>Ligne B: Borderouge ↔ Ramonville</li>
+              </ul>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">🚊</div>
+              <h3>Linéo</h3>
+              <p>13 lignes à haut niveau de service reliant les principales zones de l'agglomération</p>
+              <ul className="feature-list">
+                <li>Lignes L1 à L13</li>
+                <li>Fréquence élevée</li>
+              </ul>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">🚌</div>
+              <h3>Bus & Express</h3>
+              <p>13 lignes de bus classiques et 1 ligne express pour vos déplacements quotidiens</p>
+              <ul className="feature-list">
+                <li>Réseau dense</li>
+                <li>Connexions multiples</li>
+              </ul>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">🚐</div>
+              <h3>Navettes</h3>
+              <p>2 lignes de navettes spécialisées (Aéroport et Centre-ville)</p>
+              <ul className="feature-list">
+                <li>Navette Aéroport</li>
+                <li>Navette Centre</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Quick Access */}
+        <section className="quick-access-section">
+          <h2 className="section-title">Accès Rapide</h2>
+          <div className="quick-access-grid">
+            <Link to={isAuthenticated ? "/lines" : "/login"} className="quick-access-card">
+              <div className="quick-icon">📋</div>
+              <h3>Toutes les lignes</h3>
+              <p>Parcourez l'ensemble du réseau par catégorie</p>
             </Link>
-            <Link to="/map" className="quick-link">
-              <span className="icon">🗺️</span>
-              <span>Carte interactive</span>
+
+            <Link to={isAuthenticated ? "/map" : "/login"} className="quick-access-card">
+              <div className="quick-icon">🗺️</div>
+              <h3>Carte interactive</h3>
+              <p>Visualisez les lignes et arrêts sur une carte</p>
             </Link>
+
+            <div className="quick-access-card">
+              <div className="quick-icon">📊</div>
+              <h3>API REST</h3>
+              <p>10 endpoints conformes aux spécifications</p>
+            </div>
+
+            <div className="quick-access-card">
+              <div className="quick-icon">🔒</div>
+              <h3>Authentification JWT</h3>
+              <p>Connexion sécurisée avec tokens JWT</p>
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="home-footer">
+          <p>© 2026 Tisséo Express - API REST pour le réseau de transport de Toulouse</p>
+          <p className="footer-tech">Node.js • Express • PostgreSQL • React</p>
+        </footer>
       </div>
     </div>
   );
