@@ -21,7 +21,7 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 const Map = () => {
   const [allLinesData, setAllLinesData] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(24);
+  const [selectedCategory, setSelectedCategory] = useState(1);
   const [showAllLines, setShowAllLines] = useState(true);
   const [selectedLineId, setSelectedLineId] = useState(null);
   const [user, setUser] = useState(null);
@@ -39,8 +39,8 @@ const Map = () => {
   const loadAllCategories = async () => {
     try {
       const allData = [];
-      // Charger Métro, Bus, Tramway et Téléphérique
-      for (let categoryId = 24; categoryId <= 27; categoryId++) {
+      // Charger Métro, Linéo, Bus, Express, Navette
+      for (let categoryId = 1; categoryId <= 5; categoryId++) {
         const lines = await lineService.getLinesByCategory(categoryId);
 
         for (const line of lines) {
@@ -112,10 +112,11 @@ const Map = () => {
         <div className="control-group">
           <label htmlFor="category">Catégorie:</label>
           <select id="category" onChange={handleCategoryChange} value={selectedCategory}>
-            <option value="24">Métro</option>
-            <option value="25">Bus</option>
-            <option value="26">Tramway</option>
-            <option value="27">Téléphérique</option>
+            <option value="1">Métro</option>
+            <option value="2">Linéo</option>
+            <option value="3">Bus</option>
+            <option value="4">Express</option>
+            <option value="5">Navette</option>
           </select>
         </div>
 
