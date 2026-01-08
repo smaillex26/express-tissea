@@ -39,8 +39,8 @@ const Map = () => {
   const loadAllCategories = async () => {
     try {
       const allData = [];
-      // Charger Métro, Linéo, Bus, Express, Navette
-      for (let categoryId = 1; categoryId <= 5; categoryId++) {
+      // Charger Métro, Tramway, Linéo, Bus, Express, Navette
+      for (let categoryId = 1; categoryId <= 6; categoryId++) {
         const lines = await lineService.getLinesByCategory(categoryId);
 
         for (const line of lines) {
@@ -113,10 +113,11 @@ const Map = () => {
           <label htmlFor="category">Catégorie:</label>
           <select id="category" onChange={handleCategoryChange} value={selectedCategory}>
             <option value="1">Métro</option>
-            <option value="2">Linéo</option>
-            <option value="3">Bus</option>
-            <option value="4">Express</option>
-            <option value="5">Navette</option>
+            <option value="2">Tramway</option>
+            <option value="3">Linéo</option>
+            <option value="4">Bus</option>
+            <option value="5">Express</option>
+            <option value="6">Navette</option>
           </select>
         </div>
 

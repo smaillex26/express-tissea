@@ -82,6 +82,29 @@ const stopCoordinates = {
   'Mirail Université': { lat: 43.5800, lon: 1.4000 },
   'Bagatelle': { lat: 43.5850, lon: 1.3950 },
   'Mermoz': { lat: 43.5900, lon: 1.3900 },
+  'Ile du Ramier': { lat: 43.5950, lon: 1.4200 },
+  'Fer à Cheval': { lat: 43.5835, lon: 1.4089 },
+  'Avenue de Muret Marcel Cavaillé': { lat: 43.5800, lon: 1.4150 },
+  'Croix de Pierre': { lat: 43.5820, lon: 1.4120 },
+  'Déodat de Séverac': { lat: 43.5900, lon: 1.4050 },
+  'Hippodrome': { lat: 43.6050, lon: 1.3800 },
+  'Zénith': { lat: 43.6100, lon: 1.3750 },
+  'Cartoucherie': { lat: 43.6150, lon: 1.3700 },
+  'Purpan': { lat: 43.6100, lon: 1.3600 },
+  'Arènes Romaines': { lat: 43.6000, lon: 1.3550 },
+  'Ancely': { lat: 43.6050, lon: 1.3500 },
+  'Servanty Airbus': { lat: 43.6100, lon: 1.3450 },
+  'Guyenne Berry': { lat: 43.6150, lon: 1.3400 },
+  'Pasteur Mairie de Blagnac': { lat: 43.6200, lon: 1.3350 },
+  'Place du Relais': { lat: 43.6250, lon: 1.3300 },
+  'Odyssud Ritouret': { lat: 43.6300, lon: 1.3250 },
+  'Patinoire Barradels': { lat: 43.6350, lon: 1.3200 },
+  'Grand Noble': { lat: 43.6400, lon: 1.3150 },
+  'Place Georges Brassens': { lat: 43.6450, lon: 1.3100 },
+  'Andromède Lycée': { lat: 43.6500, lon: 1.3050 },
+  'Beauzelle Aeroscopia': { lat: 43.6550, lon: 1.3000 },
+  'Aéroconstellation': { lat: 43.6600, lon: 1.2950 },
+  'MEETT': { lat: 43.6650, lon: 1.2900 },
 };
 
 // Fonction helper pour obtenir des coordonnées (avec fallback)
@@ -230,6 +253,23 @@ const metroLines = [
             'Canal du Midi', 'Compans Caffarelli', 'Jeanne d\'Arc', 'Jean Jaurès', 'François Verdier',
             'Carmes', 'Palais de Justice', 'St Michel Marcel Langer', 'Empalot', 'St Agne SNCF',
             'Saouzelong', 'Rangueil', 'Faculté de Pharmacie', 'Université Paul Sabatier', 'Ramonville']
+  }
+];
+
+// Données de la ligne de Tramway
+const tramLines = [
+  {
+    number: 'T1',
+    name: 'Tramway T1',
+    color: '#00A651',
+    lineType: 'Tramway',
+    description: 'Palais de Justice ↔ MEETT',
+    stops: ['Palais de Justice', 'Ile du Ramier', 'Fer à Cheval', 'Avenue de Muret Marcel Cavaillé',
+            'Croix de Pierre', 'Déodat de Séverac', 'Arènes', 'Hippodrome', 'Zénith', 'Cartoucherie',
+            'Purpan', 'Arènes Romaines', 'Ancely', 'Servanty Airbus', 'Guyenne Berry',
+            'Pasteur Mairie de Blagnac', 'Place du Relais', 'Odyssud Ritouret', 'Patinoire Barradels',
+            'Grand Noble', 'Place Georges Brassens', 'Andromède Lycée', 'Beauzelle Aeroscopia',
+            'Aéroconstellation', 'MEETT']
   }
 ];
 
@@ -385,6 +425,7 @@ async function seed() {
     console.log('Creating categories...');
     const categoriesData = [
       { name: 'Métro' },
+      { name: 'Tramway' },
       { name: 'Linéo' },
       { name: 'Bus' },
       { name: 'Express' },
@@ -460,25 +501,31 @@ async function seed() {
       await createLineWithStops(line, 'Métro');
     }
 
-    // 3. Create Linéo lines
+    // 3. Create Tramway lines
+    console.log('\nCreating Tramway lines...');
+    for (const line of tramLines) {
+      await createLineWithStops(line, 'Tramway');
+    }
+
+    // 4. Create Linéo lines
     console.log('\nCreating Linéo lines...');
     for (const line of lineoLines) {
       await createLineWithStops(line, 'Linéo');
     }
 
-    // 4. Create Bus lines
+    // 5. Create Bus lines
     console.log('\nCreating Bus lines...');
     for (const line of busLines) {
       await createLineWithStops(line, 'Bus');
     }
 
-    // 5. Create Express lines
+    // 6. Create Express lines
     console.log('\nCreating Express lines...');
     for (const line of expressLines) {
       await createLineWithStops(line, 'Express');
     }
 
-    // 6. Create Navette lines
+    // 7. Create Navette lines
     console.log('\nCreating Navette lines...');
     for (const line of navetteLines) {
       await createLineWithStops(line, 'Navette');
