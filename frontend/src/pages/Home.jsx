@@ -36,9 +36,6 @@ const Home = () => {
                 <Link to="/map" className="nav-btn">
                   🗺️ Plan
                 </Link>
-                <Link to="/lines" className="nav-btn">
-                  📋 Lignes
-                </Link>
                 <button onClick={handleLogout} className="nav-btn btn-logout">
                   🚪 Déconnexion
                 </button>
@@ -162,12 +159,6 @@ const Home = () => {
         <section className="quick-access-section">
           <h2 className="section-title">Accès Rapide</h2>
           <div className="quick-access-grid">
-            <Link to={isAuthenticated ? "/lines" : "/login"} className="quick-access-card">
-              <div className="quick-icon">📋</div>
-              <h3>Toutes les lignes</h3>
-              <p>Parcourez l'ensemble du réseau par catégorie</p>
-            </Link>
-
             <Link to={isAuthenticated ? "/map" : "/login"} className="quick-access-card">
               <div className="quick-icon">🗺️</div>
               <h3>Carte interactive</h3>

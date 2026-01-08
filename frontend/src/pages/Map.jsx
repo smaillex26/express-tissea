@@ -107,9 +107,6 @@ const Map = () => {
             <Link to="/map" className="nav-btn active">
               🗺️ Plan
             </Link>
-            <Link to="/lines" className="nav-btn">
-              📋 Lignes
-            </Link>
             <button onClick={handleLogout} className="nav-btn btn-logout">
               🚪 Déconnexion
             </button>

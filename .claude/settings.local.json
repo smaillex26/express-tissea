@@ -24,7 +24,10 @@
       "Bash(node test-service.js:*)",
       "Bash(bash test-endpoints.sh:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(node server.js:*)",
+      "Bash(node:*)",
+      "Bash(del Lines.jsx)"
     ]
   }
 }
