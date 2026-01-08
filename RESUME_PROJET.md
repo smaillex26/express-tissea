@@ -79,12 +79,21 @@ Voir le fichier `backend/database/SCHEMA_DIAGRAM.md` pour le diagramme complet.
 
 Le projet contient **toutes les lignes Tisséo de Toulouse**:
 
+- **2 lignes de Métro** (A, B)
 - **13 lignes Linéo** (L1 à L13)
 - **13 lignes de Bus classiques** (1, 2, 10, 14, 23, 27, 34, 36, 38, 41, 45, 52, 78)
 - **1 ligne Express** (100)
 - **2 Navettes** (NAV A, NAV C)
 
-**Total**: 29 lignes, ~97 arrêts, ~209 relations ligne-arrêt
+**Total**: 31 lignes, 115 arrêts, 247 relations ligne-arrêt
+
+### Lignes de Métro
+
+#### Métro A (Rouge)
+Basso Cambo → Bellefontaine → Reynerie → Mirail - Université → Bagatelle → Mermoz → Fontaine Lestang → Arènes → Patte d'Oie → Saint Cyprien - République → Esquirol → Capitole → Jean Jaurès → Marengo - SNCF → Jolimont → Roseraie → Argoulets → Balma - Gramont
+
+#### Métro B (Jaune)
+Borderouge → Trois Cocus → La Vache → Barrière de Paris → Minimes - Claude Nougaro → Canal du Midi → Compans Caffarelli → Jeanne d'Arc → Jean Jaurès → François Verdier → Carmes → Palais de Justice → Saint Michel - Marcel Langer → Empalot → Saint Agne - SNCF → Saouzelong → Rangueil → Faculté de Pharmacie → Université Paul Sabatier → Ramonville
 
 ## Installation et utilisation
 
