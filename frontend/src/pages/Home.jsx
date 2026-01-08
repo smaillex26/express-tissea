@@ -63,7 +63,7 @@ const Home = () => {
           <h1 className="hero-title">Tisséo Express</h1>
           <p className="hero-subtitle">Réseau de transports publics de Toulouse</p>
           <p className="hero-description">
-            Explorez et gérez les lignes de métro, Linéo, bus, express et navettes
+            Explorez et gérez les lignes de métro, tramway, Linéo, bus, express et navettes
             du réseau Tisséo de Toulouse. Consultez les horaires, arrêts et itinéraires
             en temps réel.
           </p>
@@ -84,19 +84,19 @@ const Home = () => {
         <section className="stats-section">
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-number">31</div>
+              <div className="stat-number">32</div>
               <div className="stat-label">Lignes</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">115</div>
+              <div className="stat-number">135</div>
               <div className="stat-label">Arrêts</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">5</div>
+              <div className="stat-number">6</div>
               <div className="stat-label">Catégories</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">247</div>
+              <div className="stat-number">272</div>
               <div className="stat-label">Relations</div>
             </div>
           </div>
@@ -113,6 +113,16 @@ const Home = () => {
               <ul className="feature-list">
                 <li>Ligne A: Basso Cambo ↔ Balma-Gramont</li>
                 <li>Ligne B: Borderouge ↔ Ramonville</li>
+              </ul>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">🚋</div>
+              <h3>Tramway</h3>
+              <p>1 ligne de tramway T1 desservant 25 stations de Palais de Justice à MEETT</p>
+              <ul className="feature-list">
+                <li>Ligne T1: Palais de Justice ↔ MEETT</li>
+                <li>Desserte aéroport</li>
               </ul>
             </div>
 
