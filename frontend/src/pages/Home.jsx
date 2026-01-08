@@ -33,11 +33,11 @@ const Home = () => {
             </Link>
             {isAuthenticated ? (
               <>
+                <Link to="/map" className="nav-btn">
+                  🗺️ Plan
+                </Link>
                 <Link to="/lines" className="nav-btn">
                   📋 Lignes
-                </Link>
-                <Link to="/map" className="nav-btn">
-                  🗺️ Carte
                 </Link>
                 <button onClick={handleLogout} className="nav-btn btn-logout">
                   🚪 Déconnexion

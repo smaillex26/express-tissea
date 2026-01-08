@@ -24,13 +24,11 @@ const Map = () => {
   const [selectedCategory, setSelectedCategory] = useState(1);
   const [showAllLines, setShowAllLines] = useState(true);
   const [selectedLineId, setSelectedLineId] = useState(null);
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     if (currentUser) {
-      setUser(currentUser);
       // Charger toutes les lignes de toutes les catégories au démarrage
       loadAllCategories();
     }
@@ -98,13 +96,24 @@ const Map = () => {
     <div className="map-page">
       <header className="map-header">
         <div className="header-content">
-          <h1>Carte des Transports Tisséa</h1>
-          <div className="user-info">
-            <span>Bienvenue, {user?.name || user?.email}</span>
-            <button onClick={handleLogout} className="btn btn-secondary">
-              Déconnexion
+          <Link to="/" className="logo">
+            <span className="logo-icon">🚇</span>
+            <span className="logo-text">Tisséo Express</span>
+          </Link>
+          <nav className="nav-buttons">
+            <Link to="/" className="nav-btn">
+              🏠 Accueil
+            </Link>
+            <Link to="/map" className="nav-btn active">
+              🗺️ Plan
+            </Link>
+            <Link to="/lines" className="nav-btn">
+              📋 Lignes
+            </Link>
+            <button onClick={handleLogout} className="nav-btn btn-logout">
+              🚪 Déconnexion
             </button>
-          </div>
+          </nav>
         </div>
       </header>
 

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { lineService, categoryService } from '../services/api';
+import { Link, useNavigate } from 'react-router-dom';
+import { lineService, categoryService, authService } from '../services/api';
 import '../styles/Lines.css';
 
 function Lines() {
@@ -13,6 +14,7 @@ function Lines() {
   const [lineStops, setLineStops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadData();
@@ -87,6 +89,11 @@ function Lines() {
 
   const lineTypes = ['Linéo', 'Classic', 'Express', 'Navette', 'TAD'];
 
+  const handleLogout = () => {
+    authService.logout();
+    navigate('/');
+  };
+
   if (loading) {
     return (
       <div className="lines-page">
@@ -112,9 +119,34 @@ function Lines() {
 
   return (
     <div className="lines-page">
-      <div className="lines-header">
-        <h1>Lignes Tisséo</h1>
-        <p className="subtitle">Découvrez toutes les lignes du réseau de transport toulousain</p>
+      <header className="lines-header">
+        <div className="header-content">
+          <Link to="/" className="logo">
+            <span className="logo-icon">🚇</span>
+            <span className="logo-text">Tisséo Express</span>
+          </Link>
+          <nav className="nav-buttons">
+            <Link to="/" className="nav-btn">
+              🏠 Accueil
+            </Link>
+            <Link to="/map" className="nav-btn">
+              🗺️ Plan
+            </Link>
+            <Link to="/lines" className="nav-btn active">
+              📋 Lignes
+            </Link>
+            <button onClick={handleLogout} className="nav-btn btn-logout">
+              🚪 Déconnexion
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <div className="lines-content">
+        <div className="lines-title">
+          <h1>Lignes Tisséo</h1>
+          <p className="subtitle">Découvrez toutes les lignes du réseau de transport toulousain</p>
+        </div>
       </div>
 
       {/* Filtres */}
