@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(node -e:*)",
+      "Bash(node check-db.js:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(node prisma/seed-complete.js:*)",
+      "Bash(ping:*)",
+      "Bash(python:*)",
+      "Bash(node start-server.js:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(tasklist:*)",
+      "Bash(tskill:*)",
+      "Bash(npm install:*)",
+      "Bash(move:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm run init:db:*)",
+      "Bash(npm run seed:*)",
+      "Bash(TOKEN=\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsImlhdCI6MTc2NzgzNzAxOCwiZXhwIjoxNzY4NDQxODE4fQ.xb2MbpKwtMTLnCY9IT7SrYcxNO7WrfQUfdh--quhul4\")",
+      "Bash(node test-db.js:*)",
+      "Bash(node test-service.js:*)",
+      "Bash(bash test-endpoints.sh:*)"
+    ]
+  }
+}
