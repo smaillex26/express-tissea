@@ -1,9 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Signup from './pages/Signup';
-import Login from './pages/Login';
 import Map from './pages/Map';
-import ProtectedRoute from './components/ProtectedRoute';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
 import './App.css';
 
 function App() {
@@ -11,16 +10,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/map" element={<Map />} />
         <Route path="/login" element={<Login />} />
-        <Route
-          path="/map"
-          element={
-            <ProtectedRoute>
-              <Map />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </Router>
   );

@@ -3,14 +3,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #0a0e1a;
 }
 
 .auth-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
   padding: 2.5rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 450px;
 }
@@ -18,8 +20,9 @@
 .auth-card h2 {
   text-align: center;
   margin-bottom: 2rem;
-  color: #333;
+  color: white;
   font-size: 2rem;
+  font-weight: 700;
 }
 
 .form-group {
@@ -29,46 +32,59 @@
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #555;
+  color: #E8EDF2;
   font-weight: 500;
+  opacity: 0.8;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
   font-size: 1rem;
-  transition: border-color 0.3s;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.03);
+  color: white;
+}
+
+.form-group input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #00F5FF;
+  box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .error-message {
-  background: #fee;
-  color: #c33;
+  background: rgba(255, 107, 53, 0.1);
+  color: #FF6B35;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 15px;
   margin-bottom: 1.5rem;
   text-align: center;
+  border: 1px solid rgba(255, 107, 53, 0.3);
 }
 
 .auth-link {
   text-align: center;
   margin-top: 1.5rem;
-  color: #666;
+  color: #E8EDF2;
+  opacity: 0.7;
 }
 
 .auth-link a {
-  color: #667eea;
+  color: #00F5FF;
   text-decoration: none;
   font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .auth-link a:hover {
+  color: #FF006E;
   text-decoration: underline;
 }
 

@@ -1,235 +1,219 @@
-import { query, getClient } from '../config/database.js';
+import prisma from '../config/prisma.js';
 import { calculateDistance } from '../utils/distance.js';
 
 export const getAllLines = async () => {
-  const result = await query(`
-    SELECT
-      l.id, l.name, l.number, l.color, l.category_id, l.start_time, l.end_time,
-      l.line_type, l.description, l.created_at,
-      c.name as category_name,
-      COUNT(ls.id) as stops_count
-    FROM lines l
-    INNER JOIN categories c ON l.category_id = c.id
-    LEFT JOIN line_stops ls ON l.id = ls.line_id
-    GROUP BY l.id, c.name
-    ORDER BY c.name ASC, l.number ASC
-  `);
+  const lines = await prisma.line.findMany({
+    include: {
+      category: {
+        select: {
+          name: true
+        }
+      },
+      lineStops: true
+    },
+    orderBy: [
+      {
+        category: {
+          name: 'asc'
+        }
+      },
+      {
+        number: 'asc'
+      }
+    ]
+  });
 
-  return result.rows.map(row => ({
-    id: row.id,
-    name: row.name,
-    number: row.number,
-    color: row.color,
-    categoryId: row.category_id,
-    category: row.category_name,
-    startTime: row.start_time,
-    endTime: row.end_time,
-    lineType: row.line_type,
-    description: row.description,
-    stopsCount: parseInt(row.stops_count),
-    createdAt: row.created_at
+  return lines.map(line => ({
+    id: line.id,
+    name: line.name,
+    number: line.number,
+    color: line.color,
+    categoryId: line.categoryId,
+    category: line.category.name,
+    startTime: line.startTime,
+    endTime: line.endTime,
+    lineType: line.lineType,
+    description: line.description,
+    stopsCount: line.lineStops.length,
+    createdAt: line.createdAt
   }));
 };
 
 export const getLineById = async (lineId) => {
-  const lineResult = await query(`
-    SELECT
-      l.id, l.name, l.number, l.color, l.start_time, l.end_time,
-      l.line_type, l.description, l.created_at,
-      c.name as category_name
-    FROM lines l
-    INNER JOIN categories c ON l.category_id = c.id
-    WHERE l.id = $1
-  `, [parseInt(lineId)]);
+  const line = await prisma.line.findUnique({
+    where: { id: parseInt(lineId) },
+    include: {
+      category: {
+        select: {
+          name: true
+        }
+      },
+      lineStops: {
+        include: {
+          stop: {
+            select: {
+              name: true
+            }
+          }
+        },
+        orderBy: {
+          stopOrder: 'asc'
+        }
+      }
+    }
+  });
 
-  if (lineResult.rows.length === 0) {
+  if (!line) {
     throw new Error('Ligne non trouvée');
   }
-
-  const line = lineResult.rows[0];
-
-  // Get stops for this line
-  const stopsResult = await query(`
-    SELECT s.name
-    FROM line_stops ls
-    INNER JOIN stops s ON ls.stop_id = s.id
-    WHERE ls.line_id = $1
-    ORDER BY ls.stop_order ASC
-  `, [parseInt(lineId)]);
 
   return {
     id: line.id,
     name: line.name,
     number: line.number,
     color: line.color,
-    category: line.category_name,
-    startTime: line.start_time,
-    endTime: line.end_time,
-    createdAt: line.created_at,
-    stops: stopsResult.rows.map(row => row.name)
+    category: line.category.name,
+    startTime: line.startTime,
+    endTime: line.endTime,
+    createdAt: line.createdAt,
+    stops: line.lineStops.map(ls => ls.stop.name)
   };
 };
 
 export const getLineStops = async (lineId) => {
-  const result = await query(`
-    SELECT
-      s.id, s.name, s.latitude, s.longitude,
-      ls.stop_order as "order"
-    FROM line_stops ls
-    INNER JOIN stops s ON ls.stop_id = s.id
-    WHERE ls.line_id = $1
-    ORDER BY ls.stop_order ASC
-  `, [parseInt(lineId)]);
+  const lineStops = await prisma.lineStop.findMany({
+    where: { lineId: parseInt(lineId) },
+    include: {
+      stop: true
+    },
+    orderBy: {
+      stopOrder: 'asc'
+    }
+  });
 
-  if (result.rows.length === 0) {
+  if (lineStops.length === 0) {
     // Check if line exists
-    const lineCheck = await query('SELECT id FROM lines WHERE id = $1', [parseInt(lineId)]);
-    if (lineCheck.rows.length === 0) {
+    const line = await prisma.line.findUnique({
+      where: { id: parseInt(lineId) }
+    });
+    if (!line) {
       throw new Error('Ligne non trouvée');
     }
   }
 
-  return result.rows.map(row => ({
-    id: row.id,
-    name: row.name,
-    latitude: parseFloat(row.latitude),
-    longitude: parseFloat(row.longitude),
-    order: row.order
+  return lineStops.map(ls => ({
+    id: ls.stop.id,
+    name: ls.stop.name,
+    latitude: parseFloat(ls.stop.latitude.toString()),
+    longitude: parseFloat(ls.stop.longitude.toString()),
+    order: ls.stopOrder
   }));
 };
 
 export const updateLine = async (lineId, data) => {
-  const updates = [];
-  const values = [];
-  let paramCounter = 1;
+  const updateData = {};
 
-  if (data.name) {
-    updates.push(`name = $${paramCounter++}`);
-    values.push(data.name);
-  }
-  if (data.number) {
-    updates.push(`number = $${paramCounter++}`);
-    values.push(data.number);
-  }
-  if (data.color) {
-    updates.push(`color = $${paramCounter++}`);
-    values.push(data.color);
-  }
-  if (data.startTime) {
-    updates.push(`start_time = $${paramCounter++}`);
-    values.push(data.startTime);
-  }
-  if (data.endTime) {
-    updates.push(`end_time = $${paramCounter++}`);
-    values.push(data.endTime);
-  }
+  if (data.name) updateData.name = data.name;
+  if (data.number) updateData.number = data.number;
+  if (data.color) updateData.color = data.color;
+  if (data.startTime) updateData.startTime = data.startTime;
+  if (data.endTime) updateData.endTime = data.endTime;
 
-  if (updates.length === 0) {
+  if (Object.keys(updateData).length === 0) {
     throw new Error('Aucune donnée à mettre à jour');
   }
 
-  values.push(parseInt(lineId));
+  try {
+    const updatedLine = await prisma.line.update({
+      where: { id: parseInt(lineId) },
+      data: updateData
+    });
 
-  const result = await query(`
-    UPDATE lines
-    SET ${updates.join(', ')}
-    WHERE id = $${paramCounter}
-    RETURNING *
-  `, values);
-
-  if (result.rows.length === 0) {
-    throw new Error('Ligne non trouvée');
+    return updatedLine;
+  } catch (error) {
+    if (error.code === 'P2025') {
+      throw new Error('Ligne non trouvée');
+    }
+    throw error;
   }
-
-  return result.rows[0];
 };
 
 export const addStopToLine = async (lineId, stopData) => {
-  const client = await getClient();
-
-  try {
-    await client.query('BEGIN');
-
+  return await prisma.$transaction(async (tx) => {
     // Check if line exists
-    const lineCheck = await client.query('SELECT id FROM lines WHERE id = $1', [parseInt(lineId)]);
-    if (lineCheck.rows.length === 0) {
+    const line = await tx.line.findUnique({
+      where: { id: parseInt(lineId) }
+    });
+
+    if (!line) {
       throw new Error('Ligne non trouvée');
     }
 
     // Get next order number
-    const orderResult = await client.query(
-      'SELECT COALESCE(MAX(stop_order), 0) + 1 as next_order FROM line_stops WHERE line_id = $1',
-      [parseInt(lineId)]
-    );
-    const nextOrder = orderResult.rows[0].next_order;
+    const maxOrder = await tx.lineStop.aggregate({
+      where: { lineId: parseInt(lineId) },
+      _max: { stopOrder: true }
+    });
+    const nextOrder = (maxOrder._max.stopOrder || 0) + 1;
 
     // Create stop
-    const stopResult = await client.query(
-      'INSERT INTO stops (name, latitude, longitude) VALUES ($1, $2, $3) RETURNING id, name, latitude, longitude',
-      [stopData.name, stopData.latitude, stopData.longitude]
-    );
-    const stop = stopResult.rows[0];
+    const stop = await tx.stop.create({
+      data: {
+        name: stopData.name,
+        latitude: stopData.latitude,
+        longitude: stopData.longitude
+      }
+    });
 
     // Link stop to line
-    await client.query(
-      'INSERT INTO line_stops (line_id, stop_id, stop_order) VALUES ($1, $2, $3)',
-      [parseInt(lineId), stop.id, nextOrder]
-    );
-
-    await client.query('COMMIT');
+    await tx.lineStop.create({
+      data: {
+        lineId: parseInt(lineId),
+        stopId: stop.id,
+        stopOrder: nextOrder
+      }
+    });
 
     return {
       id: stop.id,
       name: stop.name,
-      latitude: parseFloat(stop.latitude),
-      longitude: parseFloat(stop.longitude),
+      latitude: parseFloat(stop.latitude.toString()),
+      longitude: parseFloat(stop.longitude.toString()),
       order: nextOrder
     };
-  } catch (error) {
-    await client.query('ROLLBACK');
-    throw error;
-  } finally {
-    client.release();
-  }
+  });
 };
 
 export const removeStopFromLine = async (lineId, stopId) => {
-  const client = await getClient();
-
-  try {
-    await client.query('BEGIN');
-
+  return await prisma.$transaction(async (tx) => {
     // Delete line_stop
-    const deleteResult = await client.query(
-      'DELETE FROM line_stops WHERE line_id = $1 AND stop_id = $2',
-      [parseInt(lineId), parseInt(stopId)]
-    );
+    const deleted = await tx.lineStop.deleteMany({
+      where: {
+        lineId: parseInt(lineId),
+        stopId: parseInt(stopId)
+      }
+    });
 
-    if (deleteResult.rowCount === 0) {
+    if (deleted.count === 0) {
       throw new Error('Arrêt non trouvé sur cette ligne');
     }
 
-    // Reorder remaining stops
-    await client.query(`
-      UPDATE line_stops
-      SET stop_order = subquery.new_order
-      FROM (
-        SELECT id, ROW_NUMBER() OVER (ORDER BY stop_order) as new_order
-        FROM line_stops
-        WHERE line_id = $1
-      ) as subquery
-      WHERE line_stops.id = subquery.id
-    `, [parseInt(lineId)]);
+    // Get remaining stops and reorder them
+    const remainingStops = await tx.lineStop.findMany({
+      where: { lineId: parseInt(lineId) },
+      orderBy: { stopOrder: 'asc' }
+    });
 
-    await client.query('COMMIT');
+    // Update the order of remaining stops
+    for (let i = 0; i < remainingStops.length; i++) {
+      await tx.lineStop.update({
+        where: { id: remainingStops[i].id },
+        data: { stopOrder: i + 1 }
+      });
+    }
 
     return { message: 'Arrêt supprimé et ordre réorganisé' };
-  } catch (error) {
-    await client.query('ROLLBACK');
-    throw error;
-  } finally {
-    client.release();
-  }
+  });
 };
 
 export const calculateLineDistance = async (lineId) => {

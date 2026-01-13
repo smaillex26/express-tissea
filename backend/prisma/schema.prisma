@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  name      String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("users")
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  lines     Line[]
+
+  @@map("categories")
+}
+
+model Line {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  number      String   @db.VarChar(50)
+  color       String?  @db.VarChar(7)
+  categoryId  Int      @map("category_id")
+  startTime   String   @map("start_time") @db.VarChar(5)
+  endTime     String   @map("end_time") @db.VarChar(5)
+  lineType    String?  @map("line_type") @db.VarChar(50)
+  description String?  @db.Text
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @default(now()) @map("updated_at")
+
+  category    Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  lineStops   LineStop[]
+
+  @@index([categoryId])
+  @@index([lineType])
+  @@map("lines")
+}
+
+model Stop {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  latitude  Decimal  @db.Decimal(10, 8)
+  longitude Decimal  @db.Decimal(11, 8)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  lineStops LineStop[]
+
+  @@map("stops")
+}
+
+model LineStop {
+  id        Int      @id @default(autoincrement())
+  lineId    Int      @map("line_id")
+  stopId    Int      @map("stop_id")
+  stopOrder Int      @map("stop_order")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  line      Line     @relation(fields: [lineId], references: [id], onDelete: Cascade)
+  stop      Stop     @relation(fields: [stopId], references: [id], onDelete: Cascade)
+
+  @@unique([lineId, stopId])
+  @@unique([lineId, stopOrder])
+  @@index([lineId])
+  @@index([stopId])
+  @@map("line_stops")
+}

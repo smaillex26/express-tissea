@@ -1,13 +1,13 @@
 .home {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #0a0e1a;
 }
 
 /* Header */
 .home-header {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 14, 26, 0.95);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1rem 0;
   position: sticky;
   top: 0;
@@ -50,11 +50,11 @@
 
 .nav-btn {
   padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  border-radius: 50px;
   text-decoration: none;
   color: white;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   font-weight: 500;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -62,22 +62,25 @@
 }
 
 .nav-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
 .nav-btn.active {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .nav-btn.btn-primary {
-  background: #E2001A;
-  border-color: #E2001A;
+  background: linear-gradient(135deg, #FF006E, #FF6B35);
+  border: none;
+  box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
 }
 
 .nav-btn.btn-primary:hover {
-  background: #c00016;
+  box-shadow: 0 6px 20px rgba(255, 0, 110, 0.4);
+  transform: translateY(-2px);
 }
 
 .nav-btn.btn-logout {
@@ -107,7 +110,7 @@
   font-size: 4rem;
   margin-bottom: 1rem;
   font-weight: 800;
-  background: linear-gradient(45deg, #fff, #f0f0f0);
+  background: linear-gradient(135deg, #ffffff, #00F5FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -116,16 +119,18 @@
 .hero-subtitle {
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
-  opacity: 0.95;
-  font-weight: 600;
+  opacity: 0.7;
+  font-weight: 400;
+  color: #E8EDF2;
 }
 
 .hero-description {
   font-size: 1.1rem;
   max-width: 700px;
   margin: 0 auto 2.5rem;
-  opacity: 0.9;
+  opacity: 0.6;
   line-height: 1.6;
+  color: #E8EDF2;
 }
 
 .hero-actions {
@@ -156,26 +161,27 @@
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   padding: 2rem;
-  border-radius: 15px;
+  border-radius: 20px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
 .stat-card:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-color: rgba(0, 245, 255, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 245, 255, 0.1);
 }
 
 .stat-number {
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  background: linear-gradient(45deg, #FDB913, #E2001A);
+  background: linear-gradient(135deg, #00F5FF, #FF006E);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -183,8 +189,9 @@
 
 .stat-label {
   font-size: 1.1rem;
-  opacity: 0.9;
-  font-weight: 500;
+  opacity: 0.6;
+  font-weight: 400;
+  color: #E8EDF2;
 }
 
 /* Features Section */
@@ -208,18 +215,19 @@
 }
 
 .feature-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   padding: 2.5rem;
-  border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
 .feature-card:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 107, 53, 0.3);
+  box-shadow: 0 10px 40px rgba(255, 107, 53, 0.1);
 }
 
 .feature-icon {
@@ -234,9 +242,10 @@
 }
 
 .feature-card p {
-  opacity: 0.9;
+  opacity: 0.6;
   margin-bottom: 1.5rem;
   line-height: 1.6;
+  color: #E8EDF2;
 }
 
 .feature-list {
@@ -270,11 +279,11 @@
 }
 
 .quick-access-card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   padding: 2.5rem;
-  border-radius: 15px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-decoration: none;
   color: white;
   text-align: center;
@@ -283,10 +292,10 @@
 }
 
 .quick-access-card:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(124, 179, 66, 0.3);
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px rgba(124, 179, 66, 0.1);
 }
 
 .quick-icon {

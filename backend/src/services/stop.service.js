@@ -1,12 +1,16 @@
-import { query } from '../config/database.js';
+import prisma from '../config/prisma.js';
 
 export const getAllStops = async () => {
-  const result = await query('SELECT id, name, latitude, longitude FROM stops ORDER BY name ASC');
+  const stops = await prisma.stop.findMany({
+    orderBy: {
+      name: 'asc'
+    }
+  });
 
-  return result.rows.map(row => ({
-    id: row.id,
-    name: row.name,
-    latitude: parseFloat(row.latitude),
-    longitude: parseFloat(row.longitude)
+  return stops.map(stop => ({
+    id: stop.id,
+    name: stop.name,
+    latitude: parseFloat(stop.latitude.toString()),
+    longitude: parseFloat(stop.longitude.toString())
   }));
 };

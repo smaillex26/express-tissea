@@ -17,39 +17,41 @@ body {
 .btn {
   padding: 0.75rem 2rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 50px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
   text-decoration: none;
   display: inline-block;
 }
 
 .btn-primary {
-  background: #667eea;
+  background: linear-gradient(135deg, #FF006E, #FF6B35);
   color: white;
+  box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
 }
 
 .btn-primary:hover {
-  background: #5568d3;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 25px rgba(255, 0, 110, 0.5);
+  transform: translateY(-3px);
 }
 
 .btn-primary:disabled {
-  background: #ccc;
+  background: #444;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 .btn-secondary {
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  background: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .btn-secondary:hover {
-  background: #f5f7ff;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
 }

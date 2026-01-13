@@ -6,15 +6,21 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "init:db": "node database/init.js",
-    "seed": "node database/seed.js"
+    "seed": "node database/seed.js",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "pg": "^8.16.3"
+    "pg": "^8.16.3",
+    "prisma": "^7.2.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

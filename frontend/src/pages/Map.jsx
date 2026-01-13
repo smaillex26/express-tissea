@@ -37,18 +37,31 @@ const Map = () => {
   const loadAllCategories = async () => {
     try {
       const allData = [];
-      // Charger Métro, Tramway, Linéo, Bus, Express, Navette
-      for (let categoryId = 1; categoryId <= 6; categoryId++) {
-        const lines = await lineService.getLinesByCategory(categoryId);
+      console.log('Chargement des catégories 1, 2 et 7...');
 
-        for (const line of lines) {
-          const stops = await lineService.getLineStops(line.id);
-          allData.push({
-            ...line,
-            stops: stops
-          });
+      // Charger Métro (1), Tramway (2) et Bus (7)
+      const categoryIds = [1, 2, 7];
+
+      for (const categoryId of categoryIds) {
+        try {
+          console.log(`Chargement catégorie ${categoryId}...`);
+          const lines = await lineService.getLinesByCategory(categoryId);
+          console.log(`Catégorie ${categoryId}: ${lines.length} lignes trouvées`);
+
+          for (const line of lines) {
+            const stops = await lineService.getLineStops(line.id);
+            console.log(`Ligne ${line.name}: ${stops.length} arrêts`);
+            allData.push({
+              ...line,
+              stops: stops
+            });
+          }
+        } catch (err) {
+          console.error(`Erreur catégorie ${categoryId}:`, err);
         }
       }
+
+      console.log(`Total lignes chargées: ${allData.length}`);
       setAllLinesData(allData);
     } catch (error) {
       console.error('Erreur lors du chargement des lignes:', error);
@@ -120,10 +133,7 @@ const Map = () => {
           <select id="category" onChange={handleCategoryChange} value={selectedCategory}>
             <option value="1">Métro</option>
             <option value="2">Tramway</option>
-            <option value="3">Linéo</option>
-            <option value="4">Bus</option>
-            <option value="5">Express</option>
-            <option value="6">Navette</option>
+            <option value="7">Bus</option>
           </select>
         </div>
 

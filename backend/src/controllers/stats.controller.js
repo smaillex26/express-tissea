@@ -9,3 +9,12 @@ export const getDistanceBetweenStops = async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 };
+
+export const getGeneralStats = async (req, res) => {
+  try {
+    const stats = await statsService.getGeneralStats();
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

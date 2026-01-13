@@ -1,17 +1,16 @@
 .map-page {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: #0a0e1a;
 }
 
 .map-header {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(10, 14, 26, 0.95);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .header-content {
@@ -50,11 +49,11 @@
 
 .nav-btn {
   padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  border-radius: 50px;
   text-decoration: none;
   color: white;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   font-weight: 500;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -62,13 +61,14 @@
 }
 
 .nav-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
 .nav-btn.active {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
 }
 
 .nav-btn.btn-logout {
@@ -84,11 +84,13 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 1.5rem 2rem;
-  background: white;
+  background: rgba(255, 255, 255, 0.03);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .map-controls > div:first-child {
@@ -113,8 +115,9 @@
   gap: 1rem;
   flex-wrap: wrap;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .line-item {
@@ -122,26 +125,30 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: white;
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s;
-  border: 2px solid transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .line-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .line-item.active {
-  border-color: #667eea;
-  box-shadow: 0 3px 15px rgba(102, 126, 234, 0.3);
+  border-color: #00F5FF;
+  box-shadow: 0 3px 15px rgba(0, 245, 255, 0.2);
+  background: rgba(0, 245, 255, 0.05);
 }
 
 .line-name {
   font-size: 0.9rem;
   font-weight: 500;
+  color: white;
 }
 
 .control-group {
@@ -152,21 +159,29 @@
 
 .control-group label {
   font-weight: 600;
-  color: #333;
+  color: #E8EDF2;
 }
 
 .control-group select {
   padding: 0.5rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
   font-size: 1rem;
   cursor: pointer;
   min-width: 150px;
+  background: rgba(255, 255, 255, 0.03);
+  color: white;
+}
+
+.control-group select option {
+  background: #1a1e2e;
+  color: white;
 }
 
 .control-group select:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #00F5FF;
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.2);
 }
 
 .line-info {
@@ -175,8 +190,9 @@
   gap: 1rem;
   margin-left: auto;
   padding: 0.5rem 1rem;
-  background: #f5f5f5;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .line-badge {
@@ -216,16 +232,17 @@
   max-width: 1400px;
   margin: 2rem auto;
   padding: 1.5rem 2rem;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .stops-list h3 {
   margin: 0 0 1.5rem 0;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f0f0f0;
-  color: #333;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .lines-info {
@@ -235,14 +252,16 @@
 }
 
 .line-details {
-  background: #f9f9f9;
+  background: rgba(255, 255, 255, 0.03);
   padding: 1.5rem;
-  border-radius: 10px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .line-details h4 {
   margin: 0 0 1rem 0;
   font-size: 1.2rem;
+  color: white;
 }
 
 .line-details ul {
@@ -253,7 +272,9 @@
 
 .line-details li {
   padding: 0.5rem 0;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #E8EDF2;
+  opacity: 0.7;
 }
 
 .line-details li:last-child {

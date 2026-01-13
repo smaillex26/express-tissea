@@ -1,16 +1,34 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { authService } from '../services/api';
+import { authService, statsService } from '../services/api';
 import { useEffect, useState } from 'react';
 import '../styles/Home.css';
 
 const Home = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [stats, setStats] = useState({
+    categories: 0,
+    lines: 0,
+    stops: 0,
+    relations: 0
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
     const user = authService.getCurrentUser();
     setIsAuthenticated(!!user);
+
+    // Charger les statistiques
+    loadStats();
   }, []);
+
+  const loadStats = async () => {
+    try {
+      const data = await statsService.getGeneralStats();
+      setStats(data);
+    } catch (error) {
+      console.error('Erreur lors du chargement des statistiques:', error);
+    }
+  };
 
   const handleLogout = () => {
     authService.logout();
@@ -60,7 +78,7 @@ const Home = () => {
           <h1 className="hero-title">Tisséo Express</h1>
           <p className="hero-subtitle">Réseau de transports publics de Toulouse</p>
           <p className="hero-description">
-            Explorez et gérez les lignes de métro, tramway, Linéo, bus, express et navettes
+            Explorez et gérez les lignes de métro et tramway
             du réseau Tisséo de Toulouse. Consultez les horaires, arrêts et itinéraires
             en temps réel.
           </p>
@@ -81,19 +99,19 @@ const Home = () => {
         <section className="stats-section">
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-number">32</div>
+              <div className="stat-number">{stats.lines}</div>
               <div className="stat-label">Lignes</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">135</div>
+              <div className="stat-number">{stats.stops}</div>
               <div className="stat-label">Arrêts</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">6</div>
+              <div className="stat-number">{stats.categories}</div>
               <div className="stat-label">Catégories</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">272</div>
+              <div className="stat-number">{stats.relations}</div>
               <div className="stat-label">Relations</div>
             </div>
           </div>
@@ -108,8 +126,8 @@ const Home = () => {
               <h3>Métro</h3>
               <p>2 lignes de métro (A et B) desservant 38 stations à travers Toulouse</p>
               <ul className="feature-list">
-                <li>Ligne A: Basso Cambo ↔ Balma-Gramont</li>
-                <li>Ligne B: Borderouge ↔ Ramonville</li>
+                <li>Ligne A: Basso Cambo ↔ Balma-Gramont (18 arrêts)</li>
+                <li>Ligne B: Borderouge ↔ Ramonville (20 arrêts)</li>
               </ul>
             </div>
 
@@ -118,38 +136,18 @@ const Home = () => {
               <h3>Tramway</h3>
               <p>1 ligne de tramway T1 desservant 25 stations de Palais de Justice à MEETT</p>
               <ul className="feature-list">
-                <li>Ligne T1: Palais de Justice ↔ MEETT</li>
-                <li>Desserte aéroport</li>
-              </ul>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">🚊</div>
-              <h3>Linéo</h3>
-              <p>13 lignes à haut niveau de service reliant les principales zones de l'agglomération</p>
-              <ul className="feature-list">
-                <li>Lignes L1 à L13</li>
-                <li>Fréquence élevée</li>
+                <li>Ligne T1: Palais de Justice ↔ MEETT (25 arrêts)</li>
+                <li>Desserte aéroport et zones d'activité</li>
               </ul>
             </div>
 
             <div className="feature-card">
               <div className="feature-icon">🚌</div>
-              <h3>Bus & Express</h3>
-              <p>13 lignes de bus classiques et 1 ligne express pour vos déplacements quotidiens</p>
+              <h3>Bus</h3>
+              <p>4 lignes de bus structurantes desservant 22 arrêts dans l'agglomération</p>
               <ul className="feature-list">
-                <li>Réseau dense</li>
-                <li>Connexions multiples</li>
-              </ul>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">🚐</div>
-              <h3>Navettes</h3>
-              <p>2 lignes de navettes spécialisées (Aéroport et Centre-ville)</p>
-              <ul className="feature-list">
-                <li>Navette Aéroport</li>
-                <li>Navette Centre</li>
+                <li>Linéo 1, 2 et 3: Lignes à haut niveau de service</li>
+                <li>Navette Aéroport: Liaison rapide centre-ville</li>
               </ul>
             </div>
           </div>

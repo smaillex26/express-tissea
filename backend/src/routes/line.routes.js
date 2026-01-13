@@ -1,6 +1,5 @@
 import express from 'express';
 import {
-  getAllLines,
   getLineById,
   getLineStops,
   updateLine,
@@ -11,9 +10,6 @@ import {
 import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
-
-// 1. GET - /api/lines
-router.get('/lines', authMiddleware, getAllLines);
 
 // 2. GET - /api/lines/:id
 router.get('/lines/:id', authMiddleware, getLineById);

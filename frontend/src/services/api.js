@@ -116,6 +116,11 @@ export const lineService = {
 
 // Services pour les statistiques
 export const statsService = {
+  getGeneralStats: async () => {
+    const response = await axios.get(`${API_URL}/stats`);
+    return response.data;
+  },
+
   getDistanceBetweenStops: async (stopId1, stopId2) => {
     const response = await api.get(`/stats/distance/stops/${stopId1}/${stopId2}`);
     return response.data;
